@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Account;
+import Model.Message;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -22,11 +24,15 @@ public class SocialMediaController {
         app.post("register", null);
         app.post("login", null);
         app.post("messages", null);
-        app.get("messages", null);
+        
         app.get("messages/{message_id}", null);
         app.delete("messages/{message_id}", null);
         app.patch("messages/{message_id}", null);
         app.get("accounts/{account_id}/messages", null);
+        */
+
+        /* 
+        app.get("messages", this::getAllMessagesHandler);
         */
 
         return app;
@@ -40,5 +46,11 @@ public class SocialMediaController {
         context.json("sample text");
     }
 
+//    /* 
+    public void getAllMessagesHandler(Context ctx){
+        List<Message> messages = messageService.getAllMessages();
+        ctx.json(messages);
+    }
+//    */
 
 }
