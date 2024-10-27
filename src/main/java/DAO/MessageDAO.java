@@ -12,6 +12,7 @@ import java.util.*;
 
 public class MessageDAO {
     
+    //Get All Messages
     public List<Message> getAllMessages(){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
@@ -33,6 +34,7 @@ public class MessageDAO {
         return messages;
     }
 
+    //Get Message By Id
     public Message getMessageById(Message message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -56,6 +58,7 @@ public class MessageDAO {
         return null;
     }
 
+    //Delete Message
     public Message deleteMessage(Message message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -70,6 +73,7 @@ public class MessageDAO {
         return null;
     }
 
+    //Update Message
     public Message updatMessage(Message message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
