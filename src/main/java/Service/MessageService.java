@@ -6,6 +6,7 @@ import Model.Message;
 import java.util.List;
 
 public class MessageService {
+    /** 
     public MessageDAO messageDAO;
 
     public MessageService(){
@@ -20,4 +21,5 @@ public class MessageService {
     public List<Message> getAllMessages(){
         return MessageDAO.getAllMessages();
     }
+    */
 }

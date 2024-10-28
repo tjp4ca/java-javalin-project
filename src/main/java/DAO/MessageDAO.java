@@ -12,6 +12,7 @@ import java.util.*;
 
 public class MessageDAO {
     
+    /** 
     //Get All Messages
     public List<Message> getAllMessages(){
         Connection connection = ConnectionUtil.getConnection();
@@ -88,6 +89,7 @@ public class MessageDAO {
         }
         return null;
     }
+        */
 
 
 }

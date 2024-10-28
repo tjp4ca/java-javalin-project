@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Model.Account;
 import Model.Message;
+import Service.AccountService;
+import Service.MessageService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -14,6 +16,15 @@ import io.javalin.http.Context;
  * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
  */
 public class SocialMediaController {
+
+    AccountService accountService;
+    //MessageService messageService;
+
+    public SocialMediaController(){
+        //this.messageService = new MessageService();
+        this.accountService = new AccountService();
+    }
+
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
      * suite must receive a Javalin object from this method.
@@ -24,8 +35,8 @@ public class SocialMediaController {
         app.get("example-endpoint", this::exampleHandler);
 
         /**
-        app.post("register", null);
-        app.post("login", null);
+
+
         app.post("messages", null);
         
         app.get("messages/{message_id}", null);
@@ -34,9 +45,11 @@ public class SocialMediaController {
         app.get("accounts/{account_id}/messages", null);
         */
 
-        /* 
-        app.get("messages", this::getAllMessagesHandler);
-        */
+        app.post("register", this::postAccountHandler);
+       //app.post("login", null);
+
+        // app.get("messages", this::getAllMessagesHandler);
+
 
         return app;
     }
@@ -49,6 +62,41 @@ public class SocialMediaController {
         context.json("sample text");
     }
 
+    private void postAccountHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        Account addedAccount = accountService.addAccount(account);
+
+    //    /** 
+        // username is not blank, password is at least 4 characters long, Account with that username does not already exist
+        if((account.getUsername() == "") || (account.getPassword().length() < 4)){
+            ctx.status(400);
+            addedAccount = null;
+        }
+    //    */
+  
+
+        if(addedAccount!=null){
+            ctx.json(mapper.writeValueAsString(addedAccount));
+        }else{
+            ctx.status(400);
+    }
+
+    /**
+    private void postLoginHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Account loggedinAccount = mapper.readValue(ctx.body(), Account.class);
+        Account account = accountService.verifyLogin(loggedinAccount.getUsername(), loggedinAccount.getPassword());
+
+        if(account != null){
+            ctx.status(200);
+        } else {
+            ctx.status(401);
+        }
+    }
+    */
+
+    /**
     private void postMessageHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Message message = mapper.readValue(ctx.body(), valueType:Message.class);
@@ -59,12 +107,16 @@ public class SocialMediaController {
             ctx.status(400);
         }
     }
+    */
 
-//    /* 
+    /** 
     public void getAllMessagesHandler(Context ctx){
         List<Message> messages = messageService.getAllMessages();
         ctx.json(messages);
     }
-//    */
+    */
 
+}
+
+// remove this later***
 }
