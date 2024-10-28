@@ -35,8 +35,6 @@ public class SocialMediaController {
         app.get("example-endpoint", this::exampleHandler);
 
         /**
-
-
         app.post("messages", null);
         
         app.get("messages/{message_id}", null);
@@ -46,7 +44,7 @@ public class SocialMediaController {
         */
 
         app.post("register", this::postAccountHandler);
-       //app.post("login", null);
+        app.post("login", this::postLoginHandler);
 
         // app.get("messages", this::getAllMessagesHandler);
 
@@ -62,27 +60,26 @@ public class SocialMediaController {
         context.json("sample text");
     }
 
+    // Register
     private void postAccountHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
         Account addedAccount = accountService.addAccount(account);
 
-    //    /** 
         // username is not blank, password is at least 4 characters long, Account with that username does not already exist
         if((account.getUsername() == "") || (account.getPassword().length() < 4)){
             ctx.status(400);
             addedAccount = null;
         }
-    //    */
-  
 
         if(addedAccount!=null){
             ctx.json(mapper.writeValueAsString(addedAccount));
         }else{
             ctx.status(400);
+        }
     }
 
-    /**
+    // Login
     private void postLoginHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Account loggedinAccount = mapper.readValue(ctx.body(), Account.class);
@@ -94,7 +91,6 @@ public class SocialMediaController {
             ctx.status(401);
         }
     }
-    */
 
     /**
     private void postMessageHandler(Context ctx) throws JsonProcessingException {
@@ -116,7 +112,4 @@ public class SocialMediaController {
     }
     */
 
-}
-
-// remove this later***
 }

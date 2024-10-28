@@ -19,14 +19,22 @@ public class AccountService {
         return accountDAO.insertAccount(account);
     }
 
-    /** 
     public Account verifyLogin(String username, String password) {
 
+//        /**
+
+        /**
         if((account.getUsername().equals(username)) && (account.getPassword().equals(password))){
             return account;
         } else {
             return null;
         }
+        */
+
+//        */
+
+        Account account = accountDAO.getLoginCredentials(username, password);
+        return account;
+
     }
-    */
 }
