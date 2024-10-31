@@ -38,8 +38,6 @@ public class SocialMediaController {
 
         /**
             
-        app.get("messages/{message_id}", null);
-        app.delete("messages/{message_id}", null);
         app.patch("messages/{message_id}", null);
         app.get("accounts/{account_id}/messages", null);
         */
@@ -50,6 +48,8 @@ public class SocialMediaController {
 
         app.get("messages", this::getAllMessagesHandler);
         app.get("messages/{message_id}", this::getMessageByIdHandler);
+        app.delete("messages/{message_id}", this::deleteMessageHandler);
+        app.patch("messages/{message_id}", this::updateMessageHandler);
 
 
         return app;
@@ -125,5 +125,36 @@ public class SocialMediaController {
         }
     };
 
+    // Delete Message By Id
+    public void deleteMessageHandler(Context ctx)throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        Message deletedmessage = messageService.deleteMessage(messageId);
+        if(deletedmessage != null){
+            ctx.json(mapper.writeValueAsString(deletedmessage));
+        } else {
+            ctx.status(200);
+        }
+    };
+
+    // Update Message By Id
+    public void updateMessageHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        //Message updatedmessage = messageService.updateMessage(messageId);
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        
+        if (message.getMessage_text() == null || message.getMessage_text().length() > 255 || message.getMessage_text().isEmpty()) {
+            ctx.status(400);
+            return;
+        }
+
+        Message updatedMessage = messageService.updateMessage(messageId, message.getMessage_text());
+        if(updatedMessage != null){
+            ctx.status(200).json(mapper.writeValueAsString(updatedMessage));
+        } else {
+            ctx.status(400);
+        }
+    };
 
 }
