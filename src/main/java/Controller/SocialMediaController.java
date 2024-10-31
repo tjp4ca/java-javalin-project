@@ -10,6 +10,8 @@ import Service.MessageService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.util.List;
+
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
  * found in readme.md as well as the test cases. You should
@@ -18,10 +20,10 @@ import io.javalin.http.Context;
 public class SocialMediaController {
 
     AccountService accountService;
-    //MessageService messageService;
+    MessageService messageService;
 
     public SocialMediaController(){
-        //this.messageService = new MessageService();
+        this.messageService = new MessageService();
         this.accountService = new AccountService();
     }
 
@@ -35,8 +37,7 @@ public class SocialMediaController {
         app.get("example-endpoint", this::exampleHandler);
 
         /**
-        app.post("messages", null);
-        
+            
         app.get("messages/{message_id}", null);
         app.delete("messages/{message_id}", null);
         app.patch("messages/{message_id}", null);
@@ -45,8 +46,9 @@ public class SocialMediaController {
 
         app.post("register", this::postAccountHandler);
         app.post("login", this::postLoginHandler);
+        app.post("messages", this::postMessageHandler);
 
-        // app.get("messages", this::getAllMessagesHandler);
+        app.get("messages", this::getAllMessagesHandler);
 
 
         return app;
@@ -92,10 +94,11 @@ public class SocialMediaController {
         }
     }
 
-    /**
+    // Message
+//    /**
     private void postMessageHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(ctx.body(), valueType:Message.class);
+        Message message = mapper.readValue(ctx.body(), Message.class);
         Message addedMessage = messageService.addMessage(message);
         if(addedMessage != null){
             ctx.json(mapper.writeValueAsString(addedMessage));
@@ -103,13 +106,13 @@ public class SocialMediaController {
             ctx.status(400);
         }
     }
-    */
+//    */
 
-    /** 
+//    /** 
     public void getAllMessagesHandler(Context ctx){
         List<Message> messages = messageService.getAllMessages();
         ctx.json(messages);
     }
-    */
+//    */
 
 }
