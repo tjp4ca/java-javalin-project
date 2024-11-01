@@ -119,26 +119,6 @@ public class MessageDAO {
         }
 //        */
 
-        /**
-        try {
-            String sql = "DELETE FROM message WHERE message_id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, messageId);
-    
-            int rowsAffected = preparedStatement.executeUpdate();
-    
-            if (rowsAffected > 0) {
-                return deletedMessage;
-            } else {
-                return null;
-            }
-        } catch (SQLException e) {
-            // TODO: handle exception
-            System.out.println(e.getMessage());
-        }
-        */
-
-
         return null;
     }
 
