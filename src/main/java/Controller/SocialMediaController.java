@@ -86,8 +86,10 @@ public class SocialMediaController {
         ObjectMapper mapper = new ObjectMapper();
         Account loggedinAccount = mapper.readValue(ctx.body(), Account.class);
         Account account = accountService.verifyLogin(loggedinAccount.getUsername(), loggedinAccount.getPassword());
-
+        System.out.println("hello");
+        System.out.println(account);
         if(account != null){
+            ctx.json(mapper.writeValueAsString(account));
             ctx.status(200);
         } else {
             ctx.status(401);
@@ -99,6 +101,14 @@ public class SocialMediaController {
         ObjectMapper mapper = new ObjectMapper();
         Message message = mapper.readValue(ctx.body(), Message.class);
         Message addedMessage = messageService.addMessage(message);
+        System.out.println("hello");
+        System.out.println(addedMessage);
+
+        if (message.getMessage_text().isEmpty()) {
+            ctx.status(400);
+            return;
+        }
+
         if(addedMessage != null){
             ctx.json(mapper.writeValueAsString(addedMessage));
         } else {
@@ -160,6 +170,8 @@ public class SocialMediaController {
     public void getAllMessagesByUserIdHandler(Context ctx) throws JsonProcessingException {
         int accountId = Integer.parseInt(ctx.pathParam("account_id"));
         List<Message> messages = messageService.getAllMessagesByUserId(accountId);
+        System.out.println("hello");
+        System.out.println(messages);
         ctx.status(200);
         ctx.json(messages);
     };

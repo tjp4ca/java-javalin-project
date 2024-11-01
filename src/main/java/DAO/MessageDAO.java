@@ -12,7 +12,7 @@ public class MessageDAO {
     public Message insertMessage(Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            String sql = "INSERT INTO message (posted_by, message_text, time_posted_epoch) VALUES (?, ?) ";
+            String sql = "INSERT INTO message (posted_by, message_text, time_posted_epoch) VALUES (?, ?, ?) ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setInt(1, message.getPosted_by());
@@ -90,7 +90,7 @@ public class MessageDAO {
 //        /** 
 ///** 
         try {
-            String sql = "DELETE FROM message WHERE message_id = ?";
+            String sql = "SELECT * FROM message WHERE message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setInt(1, messageId);
@@ -169,7 +169,7 @@ public class MessageDAO {
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM messages WHERE posted_by = ?";
+            String sql = "SELECT * FROM message WHERE posted_by = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, accountId);
             ResultSet rs = preparedStatement.executeQuery();
